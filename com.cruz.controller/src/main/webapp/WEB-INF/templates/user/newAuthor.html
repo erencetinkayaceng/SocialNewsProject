@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta th:include="layout/basic-layout :: site-head" th:remove="tag" />
+<title th:text="#{newauthor.title}">Yeni Yazar</title>
+</head>
+
+<body class="background">
+
+	<header th:replace="layout/basic-layout :: normal-header"></header>
+
+	<!--  Kayıt ol alanı      -->
+
+	<div class="container">
+		<div class="row col-md-8 col-md-offset-2 authregistermargin">
+
+			<div class="panel panel-primary">
+				<div class="panel-heading">
+					<h1 class="panel-title" th:text="#{newauthor.paneltitle}">Yeni
+						Yazar Kayıt Formu</h1>
+				</div>
+
+				<form th:action="@{/user/newAuthor}" th:object="${user}"
+					method="post" enctype="multipart/form-data">
+					<div class="panel-body">
+						<div class="row">
+							<div class="form-group col-md-12">
+								<label class="col-md-3 col-md-offset-1 control-lable"
+									for="username" th:text="#{label.user.username}">Kullanıcı
+									Adı</label>
+								<div class="col-md-4">
+									<input id="username" class="form-control input-block"
+										type="text" th:field="*{username}"
+										th:placeholder="#{label.user.username}" />
+								</div>
+								<span class="alert alert-danger col-md-4"
+									th:if="${#fields.hasErrors('username')}"
+									th:errors="*{username}">Invalid username</span>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="form-group col-md-12">
+								<label class="col-md-3 col-md-offset-1 control-lable"
+									for="password" th:text="#{label.user.password}">Parola</label>
+								<div class="col-md-4">
+									<input id="password" class="form-control input-block"
+										type="password" th:field="*{password}"
+										th:placeholder="#{label.user.password}" />
+								</div>
+								<span class="alert alert-danger col-md-4"
+									th:if="${#fields.hasErrors('password')}"
+									th:errors="*{password}">Invalid password</span>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="form-group col-md-12">
+								<label class="col-md-3 col-md-offset-1 control-lable"
+									for="firstname" th:text="#{label.user.firstname}">Adı</label>
+								<div class="col-md-4">
+									<input id="firstname" class="form-control input-block"
+										type="text" th:field="*{firstname}"
+										th:placeholder="#{label.user.firstname}" />
+								</div>
+								<span class="alert alert-danger col-md-4"
+									th:if="${#fields.hasErrors('firstname')}"
+									th:errors="*{firstname}">Required firstname</span>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="form-group col-md-12">
+								<label class="col-md-3 col-md-offset-1 control-lable"
+									for="lastname" th:text="#{label.user.lastname}">Soyadı</label>
+								<div class="col-md-4">
+									<input id="lastname" class="form-control input-block"
+										type="text" th:field="*{lastname}"
+										th:placeholder="#{label.user.lastname}" />
+								</div>
+								<span class="alert alert-danger col-md-4"
+									th:if="${#fields.hasErrors('lastname')}"
+									th:errors="*{lastname}">Required lastname</span>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="form-group col-md-12">
+								<label class="col-md-3 col-md-offset-1 control-lable"
+									for="emailAddress" th:text="#{label.user.emailaddress}">Email
+									Address</label>
+								<div class="col-md-4">
+									<input id="emailAddress" class="form-control input-block"
+										type="text" th:field="*{emailAddress}"
+										th:placeholder="#{label.user.emailaddress}" />
+								</div>
+								<span class="alert alert-danger col-md-4"
+									th:if="${#fields.hasErrors('emailAddress')}"
+									th:errors="*{emailAddress}">Required email address</span>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="form-group col-md-12">
+								<label class="col-md-3 col-md-offset-1 control-lable"
+									for="birthDate" th:text="#{label.user.birthdate}">Doğum
+									Günü</label>
+								<div class="col-md-4">
+									<input id="birthDate" class="form-control input-block"
+										type="date" th:field="*{birthDate}"
+										th:placeholder="gg-MM-yyyy" />
+								</div>
+								<span class="alert alert-danger col-md-4"
+									th:if="${#fields.hasErrors('birthDate')}"
+									th:errors="*{birthDate}">Required birthDate</span>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="form-group col-md-12">
+								<label class="col-md-3 col-md-offset-1 control-lable"
+									for="description" th:text="#{label.user.description}">Açıklama</label>
+								<div class="col-md-4">
+									<input id="description" class="form-control input-block"
+										type="text" th:field="*{description}"
+										th:placeholder="#{label.user.description}" />
+								</div>
+								<span class="alert alert-danger col-md-4"
+									th:if="${#fields.hasErrors('description')}"
+									th:errors="*{description}">Required description</span>
+							</div>
+						</div>
+						<div class="row">
+							<div class="form-group col-md-12">
+								<label class="col-md-3 col-md-offset-1 control-lable"
+									for="image" th:text="#{label.user.profile.image}">Image:</label>
+								<div class="col-md-4">
+									<input name="profileImage" type="file" />
+								</div>
+							</div>
+						</div>
+
+						<div class="panel-footer">
+							<div class="row">
+								<div class="form-actions">
+									<input type="submit" th:value="#{btn.register}"
+										class="btn btn-primary col-md-4 col-md-offset-4" />
+								</div>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+</body>
+</html>

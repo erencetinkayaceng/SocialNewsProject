@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta th:include="layout/admin-layout :: site-head" th:remove="tag" />
+</head>
+
+<body>
+
+	<header th:replace="layout/admin-layout :: admin-header"></header>
+
+	<div class="container-fluid global_topmargin">
+		<div class="row">
+			<!-- işlem alanı  -->
+			<div class="col-md-9">
+				<div class="panel panel-primary">
+					<div class="panel-heading">
+						<h1 class="panel-title" th:text="#{label.editprofile.paneltitle}">Düzenleme
+							Formu</h1>
+					</div>
+
+					<form th:action="@{/admin/editAjansProfile}" th:object="${userdto}"
+						method="post" enctype="multipart/form-data">
+						<div class="panel-body">
+							<input type="hidden" th:field="*{username}" /> <input
+								type="hidden" th:field="*{password}" />
+							<div class="row">
+								<div class="form-group col-md-12">
+									<label class="col-md-3 col-md-offset-1 control-lable"
+										for="firstname" th:text="#{label.user.firstname}">Adı</label>
+									<div class="col-md-8">
+										<input id="firstname" class="form-control input-block"
+											type="text" th:field="*{firstname}"
+											th:placeholder="#{label.user.firstname}" />
+									</div>
+									<span class="alert alert-danger"
+										th:if="${#fields.hasErrors('firstname')}"
+										th:errors="*{firstname}">Required firstname</span>
+								</div>
+							</div>
+
+							<div class="row">
+								<div class="form-group col-md-12">
+									<label class="col-md-3 col-md-offset-1 control-lable"
+										for="lastname" th:text="#{label.user.lastname}">Soyadı</label>
+									<div class="col-md-8">
+										<input id="lastname" class="form-control input-block"
+											type="text" th:field="*{lastname}"
+											th:placeholder="#{label.user.lastname}" />
+									</div>
+									<span class="alert alert-danger"
+										th:if="${#fields.hasErrors('lastname')}"
+										th:errors="*{lastname}">Required lastname</span>
+								</div>
+							</div>
+
+							<div class="row">
+								<div class="form-group col-md-12">
+									<label class="col-md-3 col-md-offset-1 control-lable"
+										for="emailAddress" th:text="#{label.user.emailaddress}">Email
+										Address</label>
+									<div class="col-md-8">
+										<input id="emailAddress" class="form-control input-block"
+											type="text" th:field="*{emailAddress}"
+											th:placeholder="#{label.user.emailaddress}" />
+									</div>
+									<span class="alert alert-danger"
+										th:if="${#fields.hasErrors('emailAddress')}"
+										th:errors="*{emailAddress}">Required email address</span>
+								</div>
+							</div>
+
+							<div class="row">
+								<div class="form-group col-md-12">
+									<label class="col-md-3 col-md-offset-1 control-lable"
+										for="birthDate" th:text="#{label.user.birthdate}">Doğum
+										Günü</label>
+									<div class="col-md-8">
+										<input id="birthDate" class="form-control input-block"
+											type="date" th:field="*{birthDate}"
+											th:placeholder="gg-MM-yyyy" />
+									</div>
+									<span class="alert alert-danger"
+										th:if="${#fields.hasErrors('birthDate')}"
+										th:errors="*{birthDate}">Required birthDate</span>
+								</div>
+							</div>
+
+							<div class="row">
+								<div class="form-group col-md-12">
+									<label class="col-md-3 col-md-offset-1 control-lable"
+										for="description" th:text="#{label.user.description}">Açıklama</label>
+									<div class="col-md-8">
+										<textarea id="description" class="form-control input-block"
+											th:field="*{description}" rows="10" cols="80"
+											th:placeholder="#{label.user.description}"></textarea>
+									</div>
+									<span class="alert alert-danger"
+										th:if="${#fields.hasErrors('description')}"
+										th:errors="*{description}">Required description</span>
+								</div>
+							</div>
+							<div class="row">
+								<div class="form-group col-md-12">
+									<label class="col-md-3 col-md-offset-1 control-lable"
+										for="image" th:text="#{label.user.profile.image}">Image:</label>
+									<div class="col-md-4">
+										<input name="profileImage" type="file" />
+									</div>
+								</div>
+							</div>
+
+							<div class="panel-footer">
+								<div class="row">
+									<div class="form-actions">
+										<input type="submit" th:value="#{btn.edit}"
+											class="btn btn-primary col-md-4 col-md-offset-4" />
+									</div>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+			<script th:inline="javascript">
+				CKEDITOR.replace('description', {
+					toolbar : 'Basic',
+					uiColor : '#9AB8F3'
+				});
+			</script>
+			<!-- Profil alanı  -->
+			<section th:replace="llayout/admin-layout :: right-sidebar"
+				th:remove="tag"></section>
+
+		</div>
+	</div>
+
+
+	<footer th:replace="layout/admin-layout :: admin-footer"></footer>
+</body>
+</html>

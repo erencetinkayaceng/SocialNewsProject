@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta th:include="layout/basic-layout :: site-head" th:remove="tag" />
+<title th:text="#{home.title.welcome}">Hoşgeldiniz.</title>
+</head>
+
+<body class="background">
+
+	<header th:replace="layout/basic-layout :: normal-header"></header>
+	<div class="container ">
+		<div class="row ">
+			<div class="col-sm-3 col-md-3 homecontentmargin"></div>
+			<div class="col-sm-3 col-md-3 homecontentmargin">
+				<p>
+					<a href="#register" class="btn btn-success btn-block btn-lg"
+						role="button" th:text="#{btn.register}">Kayıt Ol</a>
+				</p>
+			</div>
+			<div class="col-sm-3 col-md-3 homecontentmargin">
+				<p>
+					<a th:href="@{/login}" class="btn btn-success btn-block btn-lg"
+						role="button" th:text="#{btn.login}">Giriş Yap</a>
+				</p>
+			</div>
+			<div class="col-sm-3 col-md-3 homecontentmargin "></div>
+		</div>
+	</div>
+
+
+	<!--  Kayıt ol alanı      -->
+
+	<div id="register">
+		<div class="container ">
+			<div class="row ">
+				<div class="col-md-2 homecontentmargin"></div>
+				<div class="col-sm-4 col-md-4 homecontentmargin">
+					<div class="panel panel-success">
+						<div class="panel-heading">
+							<h3 class="panel-title" th:text="#{home.label.author}">Yazar
+								Hesabı</h3>
+						</div>
+						<div class="panel-body">
+							<p th:text="#{home.label.author.content}"></p>
+						</div>
+						<div class="panel-footer">
+							<a th:href="@{/user/newAuthor}" role="Button"
+								class="btn btn-success btn-block"
+								th:text="#{home.btn.author.create}">Yazar Hesabı Oluştur </a>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-sm-4 col-md-4 homecontentmargin">
+					<div class="panel panel-success">
+						<div class="panel-heading">
+							<h3 class="panel-title" th:text="#{home.label.ajans}">Ajans
+								Hesabı</h3>
+						</div>
+						<div class="panel-body">
+							<p th:utext="#{home.label.ajans.content}"></p><br>
+						</div>
+						<div class="panel-footer">
+							<a th:href="@{/user/newAjans}" role="Button"
+								class="btn btn-success btn-block"
+								th:utext="#{home.btn.ajans.create}">Ajans Hesabı Oluştur </a>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-2 homecontentmargin"></div>
+			</div>
+		</div>
+	</div>
+
+</body>
+</html>

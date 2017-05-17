@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+
+<head th:fragment="site-head">
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<link rel="stylesheet" href="../../resources/css/bootstrap.css"
+	th:href="@{/resources/css/bootstrap.css}" />
+<link rel="stylesheet" href="../../resources/css/bootstrap.min.css"
+	th:href="@{/resources/css/bootstrap.min.css}" />
+<link rel="stylesheet" href="../../resources/css/styles.css"
+	th:href="@{/resources/css/styles.css}" />
+
+<script src="../../resources/js/jquery-3.2.1.min.js"
+	th:src="@{/resources/js/jquery-3.2.1.min.js}"></script>
+<script src="../../resources/js/bootstrap.js"
+	th:src="@{/resources/js/bootstrap.js}"></script>
+<script src="../../resources/js/my-scripts.js"
+	th:src="@{/resources/js/my-scripts.js}"></script>
+
+<title th:text="${user.firstname+' '+user.lastname}">Profile</title>
+</head>
+
+<body>
+
+	<section th:fragment="profile-summary" th:remove="tag">
+		<div class="col-md-3">
+			<div class="col-md-12">
+				<div class="row">
+					<!-- Profil alanı  -->
+					<div class="panel panel-primary">
+						<div class="panel-heading">
+							<h6 class="panel-title">
+								<a th:href="@{/profile/{username}/(username=${user.username})}"
+									th:text="${user.firstname+' '+user.lastname}">...</a>
+							</h6>
+						</div>
+						<div class="panel-body">
+							<div class="row">
+								<div class="col-md-offset-1 col-md-10 thumbnail">
+									<img th:src="@{${user.userProfile.profileImageSrc.src}}"
+										alt="...">
+
+									<div class="caption" th:id="${'follow-'+user.username}">
+										<div th:if="${#authentication.name != user.username}"
+											th:remove="tag">
+											<div th:if="${followed == false}" th:remove="tag">
+												<a th:onclick="|newFollow('${user.username}')|"
+													th:text="#{btn.follow.create}"
+													class="btn btn-default btn-block" role="button">Takip
+													Et</a>
+											</div>
+											<div th:if="${followed == true}" th:remove="tag">
+												<a th:onclick="|removeFollow('${user.username}')|"
+													th:text="#{btn.follow.remove}"
+													class="btn btn-default btn-block" role="button">Takibi
+													Bırak</a>
+											</div>
+										</div>
+										<a
+											th:href="@{/profile/detail/{username}(username=${user.username})}"
+											th:text="#{btn.view.account.detail}"
+											class="btn btn-default btn-block" role="button">Hakkında</a>
+										<div th:if="${#authentication.name == user.username}"
+											th:remove="tag">
+											<a th:href="@{/admin/}" th:text="#{btn.admin.main}"
+												class="btn btn-default btn-block" role="button">Ayarlar</a>
+										</div>
+										<a
+											th:href="@{/follow/allFollower/{username}(username=${user.username})}"
+											th:text="#{btn.follow.follower}"
+											class="btn btn-default btn-block" role="button">Takipçiler</a>
+										<a
+											th:href="@{/follow/allFollowed/{username}(username=${user.username})}"
+											th:text="#{btn.follow.followed}"
+											class="btn btn-default btn-block" role="button">Takip
+											Edilen</a> <a
+											th:href="@{/pinnews/detail/{username}(username=${user.username})}"
+											th:text="#{btn.pinnews.detail}"
+											class="btn btn-default btn-block" role="button">Pinlenmiş
+											Haberler</a>
+										<div th:if="${#authentication.name == user.username}"
+											th:remove="tag">
+											<a th:href="@{/reservednews/detail}"
+												th:text="#{btn.reservednews.detail}"
+												class="btn btn-default btn-block" role="button">Ayrılmış
+												Haberler</a>
+										</div>
+
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="panel-footer">
+							<div class="row"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<footer th:fragment="profile-footer">
+		<!--  Son -->
+		<div class="footer">
+			<div class="container ">
+				<div class="row ">
+					<div class="col-md-4"></div>
+					<div class="col-md-4">
+						<p> &copy; 2017 Tüm hakları saklıdır.</p>
+					</div>
+					<div class="col-md-4"></div>
+				</div>				
+			</div>
+		</div>
+
+		<p th:text="${operationmessage}" id="snackbar"></p>
+		<div id="toTop">
+			<a href="javascript:;"><img id="toTopImg"
+				th:src="@{/resources/images/toTop.png}"></a>
+		</div>
+	</footer>
+
+</body>
+</html>

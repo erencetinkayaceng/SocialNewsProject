@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:fragment="site-head">
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<link rel="stylesheet" href="../../resources/css/bootstrap.css"
+	th:href="@{/resources/css/bootstrap.css}" />
+<link rel="stylesheet" href="../../resources/css/bootstrap.min.css"
+	th:href="@{/resources/css/bootstrap.min.css}" />
+<link rel="stylesheet" href="../../resources/css/styles.css"
+	th:href="@{/resources/css/styles.css}" />
+
+<script src="../../resources/js/jquery-3.2.1.min.js"
+	th:src="@{/resources/js/jquery-3.2.1.min.js}"></script>
+<script src="../../resources/js/bootstrap.js"
+	th:src="@{/resources/js/bootstrap.js}"></script>
+<script src="../../resources/js/my-scripts.js"
+	th:src="@{/resources/js/my-scripts.js}"></script>
+
+</head>
+
+<body>
+
+	<header th:fragment="main-header">
+		<nav class="navbar navbar-default navbar-fixed-top">
+			<div class="container-fluid">
+				<!-- Brand and toggle get grouped for better mobile display -->
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle collapsed"
+						data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"
+						aria-expanded="false">
+						<span class="sr-only">Toggle navigation</span> <span
+							class="icon-bar"></span> <span class="icon-bar"></span> <span
+							class="icon-bar"></span>
+					</button>
+					<a class="navbar-brand" th:href="@{/main/}" th:text="#{main.title}">Anasayfa</a>
+				</div>
+
+				<!-- Collect the nav links, forms, and other content for toggling -->
+				<div class="collapse navbar-collapse"
+					id="bs-example-navbar-collapse-1">
+					<ul class="nav navbar-nav">
+
+					</ul>
+					<form th:action="@{/search/titleAndContent}" method="get"
+						class="navbar-form navbar-right">
+						<div class="form-group">
+							<input type="text" class="form-control" name="searchWords"
+								th:placeholder="#{label.navbar.search}">
+						</div>
+						<button type="submit" class="btn btn-default"
+							th:text="#{btn.search}">Ara</button>
+					</form>
+					<ul class="nav navbar-nav navbar-right">
+						<li><a th:href="@{/admin/newPost}"
+							th:text="#{label.navbar.newpost}">YeniPost</a></li>
+						<li><a
+							th:href="@{/profile/{username}(username=${profile.username})}"
+							th:text="${profile.firstname+' '+profile.lastname}">Profile</a></li>
+						<li><a th:href="@{/logout}" th:text="#{btn.logout}">Çıkış</a></li>
+					</ul>
+				</div>
+				<!-- /.navbar-collapse -->
+			</div>
+			<!-- /.container-fluid -->
+		</nav>
+	</header>
+
+	<section th:fragment="right-sidebar" th:remove="tag">
+		<div class="col-md-3">
+			<div class="col-md-12">
+				<div class="row">
+					<!-- Profil alanı  -->
+					<div class="panel panel-primary">
+						<div class="panel-heading">
+							<h6 class="panel-title">
+								<a
+									th:href="@{/profile/{username}(username=${profile.username})}"
+									th:text="${profile.firstname+' '+profile.lastname}">...</a>
+							</h6>
+						</div>
+						<div class="panel-body">
+							<div class="row">
+								<div class="col-md-offset-1 col-md-10 thumbnail">
+									<img th:src="@{${profile.userProfile.profileImageSrc.src}}"
+										alt="...">
+
+									<div class="caption">
+										<a
+											th:href="@{/profile/detail/{username}(username=${profile.username})}"
+											th:text="#{btn.view.account.detail}"
+											class="btn btn-default btn-block" role="button">Hakkında</a>
+										<a th:href="@{/admin/}" th:text="#{btn.admin.main}"
+											class="btn btn-default btn-block" role="button">Ayarlar</a> <a
+											th:href="@{/follow/allFollower/{username}(username=${profile.username})}"
+											th:text="#{btn.follow.follower}"
+											class="btn btn-default btn-block" role="button">Takipçiler</a>
+										<a
+											th:href="@{/follow/allFollowed/{username}(username=${profile.username})}"
+											th:text="#{btn.follow.followed}"
+											class="btn btn-default btn-block" role="button">Takip
+											Edilen</a> <a
+											th:href="@{/pinnews/detail/{username}(username=${profile.username})}"
+											th:text="#{btn.pinnews.detail}"
+											class="btn btn-default btn-block" role="button">Pinlenmiş
+											Haberler</a> <a th:href="@{/reservednews/detail}"
+											th:text="#{btn.reservednews.detail}"
+											class="btn btn-default btn-block" role="button">Ayrılmış
+											Haberler</a>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="panel-footer">
+							<div class="row"></div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<!-- extra içerik alanı  -->
+					<div></div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+
+	<footer th:fragment="main-footer">
+		<!--  Son -->
+		<div class="footer">
+			<div class="container ">
+				<div class="row ">
+					<div class="col-md-4"></div>
+					<div class="col-md-4">
+						<p> &copy; 2017 Tüm hakları saklıdır.</p>
+					</div>
+					<div class="col-md-4"></div>
+				</div>				
+			</div>
+		</div>
+
+		<p th:text="${operationmessage}" id="snackbar"></p>
+		<div id="toTop">
+			<a href="javascript:;"><img id="toTopImg"
+				th:src="@{/resources/images/toTop.png}"></a>
+		</div>
+	</footer>
+
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<section th:fragment="search-main" th:remove="tag">
+	<div th:if="${searchType == 'user'}"
+		class="col-md-12 search-user-panel"
+		th:each="user : ${pageHolder.list}">
+
+		<div class="main-content">
+			<div class="col-md-3">
+				<div class="thumbnail">
+					<img th:src="@{${user.userProfile.profileImageSrc.src}}" alt="...">
+				</div>
+			</div>
+			<div class="col-md-9">
+				<div class="col-md-12">
+					<span class="username" th:text="${user.username}"></span> <br>
+					<span th:text="${user.firstname+' '+user.lastname}"></span>
+				</div>
+				<div class="row" th:id="${'follow-'+user.username}">
+					<div class="col-md-6">
+						<br> <a
+							th:href="@{/profile/{username} (username=${user.username})}"
+							th:text="#{btn.redirect.profile}"
+							class="btn btn-primary btn-block" role="button">Profile git</a>
+					</div>
+					<div class="col-md-6"
+						th:if="${#authentication.name != user.username}">
+						<div
+							th:if="${@mySecurityService.isCheckFollow(user.username) == false}"
+							th:remove="tag">
+							<br> <a th:onclick="|newFollow('${user.username}')|"
+								th:text="#{btn.follow.create}" class="btn btn-success btn-block"
+								role="button">Takip Et</a>
+						</div>
+						<div
+							th:if="${@mySecurityService.isCheckFollow(user.username) == true}"
+							th:remove="tag">
+							<br> <a th:onclick="|removeFollow('${user.username}')|"
+								th:text="#{btn.follow.remove}" class="btn btn-danger btn-block"
+								role="button">Takibi Bırak</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+</html>

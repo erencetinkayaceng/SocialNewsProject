@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+<meta th:include="layout/profile-layout :: site-head" th:remove="tag" />
+</head>
+
+<body>
+
+	<header th:replace="layout/main-layout :: main-header"></header>
+
+	<div class="container-fluid global_topmargin">
+		<div class="row">
+
+			<!-- işlem alanı  -->
+			<div class="col-md-9">
+				<div class="col-md-4">
+					<div class="row">
+						<section
+							th:replace="fragment/popular-hashtags :: popular-hashtags"
+							th:remove="tag"></section>
+					</div>
+				</div>
+				<div class="col-md-8">
+					<div id="headline-carousel"  th:if="${#lists.size(headLinePosts) != 0}" class="carousel slide"
+						data-ride="carousel">
+						<!-- Indicators -->
+						<ol class="carousel-indicators">
+							<th:block
+								th:each="index:${#numbers.sequence(0,#lists.size(headLinePosts)-1)}"
+								th:remove="tag">
+								<li th:if="${index == 0}" data-target="#headline-carousel"
+									data-slide-to="0" class="active"></li>
+								<li th:if="${index != 0}" data-target="#headline-carousel"
+									th:data-slide-to="${index}"></li>
+							</th:block>
+						</ol>
+
+						<!-- Wrapper for slides -->
+						<div class="carousel-inner" role="listbox">
+							<th:block th:each="post,iterationStatus : ${headLinePosts}"
+								th:remove="tag">
+								<div th:if="${iterationStatus.index == 0}" class="item active">
+									<a
+										th:href="@{/post/detail/{postLink}(postLink=${post.postLink})}">
+										<img th:src="@{/resources/images/info.png}" alt="..."
+										class="d-block img-fluid" width="300em">
+									</a>
+									<div class="carousel-caption">
+										<h5>
+											<a
+												th:href="@{/post/detail/{postLink}(postLink=${post.postLink})}"
+												th:text="${post.title}">...</a>
+										</h5>
+									</div>
+								</div>
+								<div th:if="${iterationStatus.index != 0}" class="item">
+									<a
+										th:href="@{/post/detail/{postLink}(postLink=${post.postLink})}"><img
+										th:src="@{/resources/images/info.png}" alt="..."
+										class="d-block img-fluid" width="300em"></a>
+									<div class="carousel-caption">
+										<h5>
+											<a
+												th:href="@{/post/detail/{postLink}(postLink=${post.postLink})}"
+												th:text="${post.title}">...</a>
+										</h5>
+									</div>
+								</div>
+							</th:block>
+						</div>
+
+						<!-- Controls -->
+						<a class="left carousel-control" href="#headline-carousel"
+							role="button" data-slide="prev"> <span
+							class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+							<span class="sr-only">Previous</span>
+						</a> <a class="right carousel-control" href="#headline-carousel"
+							role="button" data-slide="next"> <span
+							class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+							<span class="sr-only">Next</span>
+						</a>
+					</div>
+					<br>
+					<div id="main-content">
+						<section
+							th:replace="fragment/post-summary-list :: post-summary-list"
+							th:remove="tag"></section>
+					</div>
+				</div>
+			</div>
+			<!-- Profil alanı  -->
+			<section th:replace="layout/profile-layout :: profile-summary"
+				th:remove="tag"></section>
+		</div>
+	</div>
+
+	<footer th:replace="layout/profile-layout :: profile-footer"></footer>
+
+	<script th:inline="javascript">
+			/*<![CDATA[*/
+				
+				$(function(){
+					var pageNum = [[${pageHolder.currentPage+1}]];
+					$(window).scroll(function(){
+						var scroll=$(this).scrollTop();
+						var uzunluk=$(document).height()-$(this).height();		
+			
+						if(scroll==uzunluk){
+							var s=$(this).scrollTop();
+							if([[${pageHolder.totalCount}]]/[[${pageHolder.pageSize}]] > pageNum){
+								$.ajax({
+									type : "GET",
+									url : contextRoot + [[${pageHolder.pageUrl}]],
+									data : { pageNum: pageNum,
+									pageSize:[[${pageHolder.pageSize}]],
+									totalCount:[[${pageHolder.totalCount}]]
+									},
+									success : function(data) {						
+									var datapart=$(data).find("#main-content").html();
+									$('#main-content').append(datapart);
+									$(this).scrollTop(s);
+									pageNum+=1;
+									}
+								});
+							}
+						}		
+					});
+				});			
+			/*]]>*/
+		</script>
+
+</body>
+</html>

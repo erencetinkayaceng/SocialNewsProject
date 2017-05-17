@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta th:include="layout/basic-layout :: site-head" th:remove="tag"/>
+<title th:text="#{registrationsuccess.title}">Kayıt İşlemi Başarılı</title>
+</head>
+
+<body class="background">
+
+<header th:replace="layout/basic-layout :: normal-header" ></header>
+
+	<div class="container ">
+		<div class="row ">
+			<div class="col-sm-4 col-md-4 homecontentmargin "></div>
+			<div class="col-sm-4 col-md-4 homecontentmargin" >
+			    <div class="well well"> <p th:text="${successmesage}"><p></div>
+				<p><a th:href="@{/}" class="btn btn-success btn-block btn-lg" role="button" th:text="#{btn.home}">Anasayfa</a></p>
+			</div>
+			<div class="col-sm-4 col-md-4 homecontentmargin "></div>
+		</div>
+	</div>	
+
+
+<footer th:replace="layout/basic-layout :: site-footer"></footer>
+
+</body>
+</html>

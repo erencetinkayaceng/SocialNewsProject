@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+<meta th:include="layout/profile-layout :: site-head" th:remove="tag" />
+</head>
+
+<body>
+
+	<header th:replace="layout/main-layout :: main-header"></header>
+
+	<div class="container-fluid global_topmargin">
+		<div class="row">
+			<!-- işlem alanı  -->
+			<div class="col-md-9">
+				<div class="panel panel-primary">
+					<div class="panel-heading">
+						<h6 class="panel-title"
+							th:text="#{label.detailprofile.paneltitle}">Hakkında</h6>
+					</div>
+					<div class="panel-body">
+						<div class="row">
+							<table class="table table-striped">
+								<tr>
+									<td><label th:text="#{label.detailprofile.fullname}">İsim:</label>
+										<p th:text="${user.firstname+' '+user.lastname}">...</p></td>
+								</tr>
+								<tr>
+									<td><label th:text="#{label.detailprofile.emailAddress}">Email:</label>
+										<p th:text="${user.emailAddress}">...</p></td>
+								</tr>
+								<tr>
+									<td><label th:text="#{label.detailprofile.birthDate}">Doğum
+											Günü:</label>
+										<p th:text="${user.userProfile.birthDate}">...</p></td>
+								</tr>
+								<tr>
+									<td><label th:text="#{label.detailprofile.description}">Hakkında:</label>
+										<div class="profile-description">
+											<p th:utext="${user.userProfile.description}">...</p>
+										</div></td>
+								</tr>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- Profil alanı  -->
+			<section th:replace="layout/profile-layout :: profile-summary"
+				th:remove="tag"></section>
+		</div>
+	</div>
+
+
+	<footer th:replace="layout/profile-layout :: profile-footer"></footer>
+</body>
+</html>

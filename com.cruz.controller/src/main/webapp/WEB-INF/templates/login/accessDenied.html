@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+
+<head>
+<meta th:include="layout/basic-layout :: site-head" th:remove="tag" />
+<title th:text="#{accesdenied.title}">Hatalı Erişim</title>
+</head>
+
+<body class="background">
+
+	<header th:replace="layout/basic-layout :: normal-header"></header>
+
+	<div class="container ">
+		<div class="row ">
+			<div class="col-sm-4 col-md-4 authcontentmargin "></div>
+			<div class="col-sm-4 col-md-4 authcontentmargin">
+				<div class="alert alert-danger">
+					<p th:text="#{accesdenied.message}">Erişim rededildi!</p>
+				</div>
+				<div sec:authorize="isAnonymous()" th:remove="tag">
+					<p>
+						<a th:href="@{/home}" class="btn btn-success btn-block btn-lg" role="button"  th:text="#{btn.home}">Anasayfa</a>
+					</p>
+				</div>
+				<div sec:authorize="isAuthenticated()" th:remove="tag">
+					<p>
+						<a th:href="@{/main/}" class="btn btn-success btn-block btn-lg" role="button"  th:text="#{btn.home}">Anasayfa</a>
+					</p>
+				</div>
+			</div>
+			<div class="col-sm-4 col-md-4 authcontentmargin "></div>
+		</div>
+	</div>
+
+
+</body>
+</html>

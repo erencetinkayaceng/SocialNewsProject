@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta th:include="layout/main-layout :: site-head" th:remove="tag" />
+</head>
+
+<body>
+
+	<header th:replace="layout/main-layout :: main-header"></header>
+
+	<div class="container-fluid global_topmargin">
+		<div class="row">
+			<!-- işlem alanı  -->
+			<div class="col-md-9">
+				<div class="col-md-4">
+					<div class="row">
+						<section
+							th:replace="search/fragments/search-type-button-group :: search-type-button-group"
+							th:remove="tag"></section>
+						<section
+							th:replace="fragment/popular-hashtags :: popular-hashtags"
+							th:remove="tag"></section>
+					</div>
+				</div>
+				<div id="main-content" class="col-md-8">
+					<section th:replace="search/fragments/search-user :: search-main"
+						th:remove="tag"></section>
+					<section
+						th:replace="search/fragments/search-post-title-and-content :: search-main"
+						th:remove="tag"></section>
+					<section
+						th:replace="search/fragments/search-hashtag :: search-main"
+						th:remove="tag"></section>
+				</div>
+			</div>
+
+			<!-- Profil alanı  -->
+			<section th:replace="layout/main-layout :: right-sidebar"
+				th:remove="tag"></section>
+		</div>
+	</div>
+
+	<footer th:replace="layout/main-layout :: main-footer"></footer>
+
+	<script th:inline="javascript">
+			/*<![CDATA[*/
+				
+				$(function(){
+					var pageNum = [[${pageHolder.currentPage+1}]];
+					$(window).scroll(function(){
+						var scroll=$(this).scrollTop();
+						var uzunluk=$(document).height()-$(this).height();		
+			
+						if(scroll==uzunluk){
+							var s=$(this).scrollTop();
+							if([[${pageHolder.totalCount}]]/[[${pageHolder.pageSize}]] > pageNum){
+								$.ajax({
+									type : "GET",
+									url : contextRoot + [[${pageHolder.pageUrl}]],
+									data : { pageNum: pageNum,
+									pageSize:[[${pageHolder.pageSize}]],
+									totalCount:[[${pageHolder.totalCount}]]
+									},
+									success : function(data) {						
+									var datapart=$(data).find("#main-content").html();
+									$('#main-content').append(datapart);
+									$(this).scrollTop(s);
+									pageNum+=1;
+									}
+								});
+							}
+						}		
+					});
+				});			
+			/*]]>*/
+		</script>
+</body>
+</html>

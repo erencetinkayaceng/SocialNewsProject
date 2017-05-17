@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<section th:fragment="post-operation" th:remove="tag">
+	<div class="dropdown"
+		th:id="${'post-operation-button-group-'+post.postLink}">
+		<button class="btn btn-default dropdown-toggle" type="button"
+			id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true"
+			aria-expanded="true">
+			<span class="caret"></span>
+		</button>
+		<div th:if="${post}" th:remove="tag">
+			<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+				<li
+					th:if="${@mySecurityService.canAccessReservedNewsSaveByPostLink(post.postLink)} AND (${post.user.username != #authentication.name})"><a
+					th:id="${'rncreate-'+post.postLink}"
+					th:onclick="|reservednewsSave('${post.postLink}')|"
+					th:text="#{btn.reservednews.save}">...</a></li>
+				<li
+					th:if="${@mySecurityService.canAccessPinNewsSaveByPostLink(post.postLink)} AND (${post.user.username != #authentication.name})"><a
+					th:id="${'pncreate-'+post.postLink}"
+					th:onclick="|pinnewsSave('${post.postLink}')|"
+					th:text="#{btn.pinnews.save}">...</a></li>
+				<li
+					th:if="${@mySecurityService.canAccessPinNewsRemoveByPostLink(post.postLink)}"><a
+					th:id="${'pnremove-'+post.postLink}"
+					th:onclick="|pinnewsRemove('${post.postLink}')|"
+					th:text="#{btn.pinnews.remove}">...</a></li>
+				<li
+					th:if="${@mySecurityService.canAccessPostEditByPostLink(post.postLink)}">
+					<a
+					th:href="@{/admin/editPost/{postlink}(postlink=${post.postLink})}"
+					th:text="#{label.admin.post.edit}">...</a>
+				</li>
+
+				<li><a href="#">Another action</a></li>
+			</ul>
+		</div>
+	</div>
+</section>
+</html>

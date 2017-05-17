@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<section th:fragment="post-summary-list" th:remove="tag">
+	<div class="panel panel-primary" th:each="post : ${pageHolder.list}">
+		<div class="panel-heading">
+			<div class="row">
+				<div class="col-md-7">
+					<h6 class="panel-title">
+						<a th:href="@{/post/detail/{postLink}(postLink=${post.postLink})}"
+							th:text="${post.title}">...</a>
+					</h6>
+				</div>
+				<div class="col-md-4">
+					<div class="row">
+						<h6 class="panel-title">
+							<a class="pull-right"
+								th:href="@{/profile/{username}(username=${post.user.username})}"
+								th:text="${post.user.firstname+' '+post.user.lastname}">...</a>
+						</h6>
+					</div>
+					<div class="row">
+						<span class="pull-right" th:text="${post.addDate}"></span>
+					</div>
+				</div>
+				<div class="col-md-1">
+					<section
+						th:replace="fragment/post-operation-button-group :: post-operation"
+						th:remove="tag"></section>
+				</div>
+			</div>
+		</div>
+		<div class="panel-body">
+			<div class="row">
+				<span
+					th:utext="${post.content.length() < 255}? ${post.content} : ${#strings.substring(post.content,0,255)}">Content</span>
+
+			</div>
+		</div>
+		<div class="panel-footer">
+			<div class="row" >
+				<div class="col-md-4" th:id="${'postFooter-'+post.postLink}">
+					<button
+						th:if="${@mySecurityService.canAccessLikeCreateByPostLink(post.postLink)}"
+						class="btn btn-primary"
+						th:onclick="|likeSave('${post.postLink}')|" type="button">
+						<span th:text="#{btn.like} "></span><span class="badge"
+							th:text="${post.likeCount}">0</span>
+					</button>
+					<button
+						th:if="${@mySecurityService.canAccessLikeRemoveByPostLink(post.postLink)}"
+						class="btn btn-danger"
+						th:onclick="|likeRemove('${post.postLink}')|" type="button">
+						<span th:text="#{btn.dislike} "></span><span class="badge"
+							th:text="${post.likeCount}">0</span>
+					</button>
+				</div>
+				<div class="col-md-4"></div>
+				<div class="col-md-4">
+					<span class="pull-right" th:text="${post.updateDate}"></span>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+</html>

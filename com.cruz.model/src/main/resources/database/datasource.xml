@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.2.xsd">
+
+	<context:annotation-config></context:annotation-config>
+	<context:component-scan base-package="com.cruz,com.cruz.dao,com.cruz.service"></context:component-scan>
+	<tx:annotation-driven transaction-manager="transactionManager" />
+
+	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
+		destroy-method="close">
+		<property name="driverClass" value="com.mysql.jdbc.Driver"></property>
+		<property name="jdbcUrl"
+			value="jdbc:mysql://localhost:3306/deneme?useUnicode=true&amp;connectionCollation=utf8_general_ci&amp;characterSetResults=utf8&amp;characterEncoding=utf-8"></property>
+		<property name="user" value="root"></property>
+		<property name="password" value="cruz"></property>
+
+		<!-- C3P0 properties -->
+		<property name="minPoolSize" value="5"></property>
+		<property name="maxPoolSize" value="100"></property>
+		<property name="maxIdleTime" value="600"></property>
+		<property name="acquireIncrement" value="5"></property>
+		<property name="idleConnectionTestPeriod" value="2000"></property>
+	</bean>
+
+	<bean id="entityManagerFactory"
+		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		<!-- Bu özelligi kullanmıyoruz istersek kullanabiliriz. -->
+		<!-- <property name="persistenceUnitName" value="persistenceUnit"></property> -->
+
+		<property name="dataSource" ref="dataSource"></property>
+		<property name="jpaVendorAdapter">
+			<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter"></bean>
+		</property>
+		<property name="packagesToScan" value="com.cruz"></property>
+		<property name="jpaProperties">
+			<props>
+				<prop key="hibernate.dialect">org.hibernate.dialect.MySQL5InnoDBDialect</prop>
+				<prop key="hibernate.show_sql">false</prop>
+				<prop key="hibernate.format_sql">true</prop>
+				<prop key="hibernate.hbm2ddl.auto">update</prop>
+				<prop key="hibernate.hbm2ddl.show">false</prop>
+				<prop key="hibernate.connection.useUnicode">true</prop>
+				<prop key="hibernate.connection.characterEncoding">UTF-8</prop>
+				<prop key="hibernate.connection.charSet">UTF-8</prop>
+				<!-- <prop key="hibernate.hbm2ddl.auto">create</prop> -->
+			</props>
+		</property>
+	</bean>
+
+	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+		<property name="entityManagerFactory" ref="entityManagerFactory"></property>
+	</bean>
+
+</beans>

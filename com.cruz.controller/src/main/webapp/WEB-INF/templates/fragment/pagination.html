@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<section th:fragment="pagination" th:remove="tag">
+	<div th:with="totalPage=${pageHolder.totalCount / pageHolder.pageSize}"
+		th:remove="tag">
+		<ul class="pagination">
+			<!-- Prev button -->
+			<li th:if="(${pageHolder.currentPage-1} < 0)" th:class="disabled"><a
+				th:onclick="|void(0)|" aria-label="Previous"> <span
+					aria-hidden="true">&laquo;</span>
+			</a></li>
+			<li th:if="(${pageHolder.currentPage-1} >= 0)"><a
+				th:onclick="|documentByPage('${pageHolder.currentPage-1}')|"
+				aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
+			</a></li>
+			<!-- Page buttons -->
+			<th:block th:if="(${totalPage} <= 10)"
+				th:each="index:${#numbers.sequence(0,totalPage)}" th:remove="tag">
+				<li th:class="${pageHolder.currentPage  == index}? 'active':'' "><a
+					th:onclick="|documentByPage('${index}')|" th:text="${index+1}"></a></li>
+			</th:block>
+			<th:block
+				th:if="(${totalPage} > 10) AND (${pageHolder.currentPage+10} <= ${totalPage-1})"
+				th:each="index:${#numbers.sequence(pageHolder.currentPage,pageHolder.currentPage+10)}"
+				th:remove="tag">
+				<li th:class="${pageHolder.currentPage  == index}? 'active':'' "><a
+					th:onclick="|documentByPage('${index}')|" th:text="${index+1}"></a></li>
+			</th:block>
+			<th:block
+				th:if="(${totalPage} > 10) AND (${pageHolder.currentPage+10} > ${totalPage-1})"
+				th:each="index:${#numbers.sequence(totalPage-10,totalPage-1)}"
+				th:remove="tag">
+				<li th:class="${pageHolder.currentPage  == index}? 'active':'' "><a
+					th:onclick="|documentByPage('${index}')|" th:text="${index+1}"></a></li>
+			</th:block>
+			<!-- Next button -->
+			<li th:if="(${pageHolder.currentPage} >= ${totalPage})"
+				th:class="disabled"><a th:onclick="|void(0)|" aria-label="Next">
+					<span aria-hidden="true">&raquo;</span>
+			</a></li>
+			<li th:if="(${pageHolder.currentPage} < ${totalPage})"><a
+				th:onclick="|documentByPage('${pageHolder.currentPage+1}')|"
+				aria-label="Next"> <span aria-hidden="true">&raquo;</span>
+			</a></li>
+		</ul>
+	</div>
+</section>
+</html>

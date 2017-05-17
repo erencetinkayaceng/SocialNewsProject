@@ -1,0 +1,251 @@
+a:hover {
+	cursor: pointer;
+}
+
+.homecontentmargin {
+	text-align: center;
+	margin-top: 230px;
+	margin-bottom: 250px;
+}
+
+.authcontentmargin {
+	text-align: center;
+	margin-top: 250px;
+	margin-bottom: 250px;
+}
+
+.authregistermargin {
+	text-align: center;
+	margin-top: 75px;
+	margin-bottom: 50px;
+}
+
+.navbarbackground {
+	padding: 1px;
+	background-color: #2e3436;
+}
+
+.nav-tabs.nav-justified>li>a {
+	border-radius: 0;
+}
+
+.nav>li>a:focus, .nav>li>a:hover {
+	text-decoration: none;
+	background-color: #ffffff;
+}
+
+.background {
+	width: 100%;
+	background-color: #204a87;
+	background-image: -moz-linear-gradient(bottom, #47ad76 0%, #47ad76 0.27%, #204a87 99.46%,
+		#204a87 100%);
+	background-image: -o-linear-gradient(bottom, #47ad76 0%, #47ad76 0.27%, #204a87 99.46%,
+		#204a87 100%);
+	background-image: -webkit-linear-gradient(bottom, #47ad76 0%, #47ad76 0.27%, #204a87
+		99.46%, #204a87 100%);
+	background-image: linear-gradient(bottom, #47ad76 0%, #47ad76 0.27%, #204a87 99.46%,
+		#204a87 100%);
+}
+
+.footer {
+	background-color: #e0e0e0;
+	padding-top: 25px;
+	padding-bottom: 10px;
+}
+
+.newpost_upmargin {
+	margin-top: 75px;
+}
+
+.global_topmargin {
+	margin-top: 75px;
+}
+
+/* The snackbar - position it at the bottom and in the middle of the screen */
+#snackbar {
+	visibility: hidden; /* Hidden by default. Visible on click */
+	min-width: 250px; /* Set a default minimum width */
+	margin-left: -125px; /* Divide value of min-width by 2 */
+	background-color: #333; /* Black background color */
+	color: #fff; /* White text color */
+	text-align: center; /* Centered text */
+	border-radius: 2px; /* Rounded borders */
+	padding: 16px; /* Padding */
+	position: fixed; /* Sit on top of the screen */
+	z-index: 1; /* Add a z-index if needed */
+	left: 50%; /* Center the snackbar */
+	bottom: 30px; /* 30px from the bottom */
+}
+
+/* Show the snackbar when clicking on a button (class added with JavaScript) */
+#snackbar.show {
+	visibility: visible; /* Show the snackbar */
+	/* Add animation: Take 0.5 seconds to fade in and out the snackbar. 
+However, delay the fade out process for 2.5 seconds */
+	-webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+	animation: fadein 0.5s, fadeout 0.5s 2.5s;
+}
+
+/* Animations to fade the snackbar in and out */
+@
+-webkit-keyframes fadein {
+	from {bottom: 0;
+	opacity: 0;
+}
+
+to {
+	bottom: 30px;
+	opacity: 1;
+}
+
+}
+@
+keyframes fadein {
+	from {bottom: 0;
+	opacity: 0;
+}
+
+to {
+	bottom: 30px;
+	opacity: 1;
+}
+
+}
+@
+-webkit-keyframes fadeout {
+	from {bottom: 30px;
+	opacity: 1;
+}
+
+to {
+	bottom: 0;
+	opacity: 0;
+}
+
+}
+@
+keyframes fadeout {
+	from {bottom: 30px;
+	opacity: 1;
+}
+
+to {
+	bottom: 0;
+	opacity: 0;
+}
+
+}
+.comment-panel {
+	border: 1px solid #337ab7;
+}
+
+.comment-input {
+	background-color: #eeeeec;
+	padding: 2px;
+}
+
+.comment-content {
+	word-wrap: break-word;
+	background-color: #eeeeec;
+	padding: 2px;
+	border-top: 1px solid #fff;
+}
+
+.styled-select {
+	background: url(../images/selectIcon.png) no-repeat 96% 0;
+	height: 34px;
+	overflow: hidden;
+	width: 150px;
+	margin-left: 2px;
+	margin-right: 2px;
+	border: 1px solid #729fcf;
+}
+
+.blue {
+	background-color: #3465a4;
+}
+
+.blue select {
+	color: #fff;
+	border: none;
+}
+
+.styled-select select {
+	background: transparent;
+	font-size: 15px;
+	height: 34px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	width: 165px;
+	border: none;
+	outline: none;
+	padding-top: 5px;
+}
+
+.styled-select select:focus {
+	border: none;
+	outline: none;
+}
+
+select:focus, option:focus, select::-moz-focus-inner, option::-moz-focus-inner
+	{
+	outline: none;
+	border: none;
+}
+
+.semi-square {
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+}
+
+#toTop {
+	z-index: 100;
+	position: fixed;
+	bottom: 10px;
+	right: 10px;
+	display: none;
+}
+
+#toTopImg {
+	width: 50px;
+	height: 50px;
+}
+
+.search-user-panel {
+	border: 1px solid #729fcf;
+	background-color: #fff;
+	margin-bottom: 5px;
+	padding: 5px;
+}
+
+.search-user-content {
+	word-wrap: break-word;
+}
+
+.search-user-content span {
+	word-wrap: break-word;
+	font-size: 17px;
+}
+
+.search-user-content .username {
+	word-wrap: break-word;
+	font-size: 14px;
+	color: #204a87;
+}
+
+#headline-carousel {
+	background-color: #eeeeec;
+}
+
+#headline-carousel a {
+	color: #204a87;
+}
+
+body {
+	background-color: #f9f9f9;
+}
+
+.profile-description {
+	word-wrap: break-word;
+}

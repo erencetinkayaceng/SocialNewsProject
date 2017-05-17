@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<section th:fragment="popular-hashtags" th:remove="tag">
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<label class="center" th:text="#{label.hashtag}"></label>
+		</div>
+		<div class="panel-body">
+			<div th:each="hashTag : ${popularHashtags}">
+				<a class="btn btn-default btn-block"
+					th:href="@{/search/hashTag?searchWords={hashtag} (hashtag=${hashTag})}"
+					th:text="${hashTag}"></a>
+			</div>
+		</div>
+	</div>
+</section>
+</html>

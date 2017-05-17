@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<section th:fragment="search-type-button-group" th:remove="tag">
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<label class="center" th:text="#{label.search.criteria}"></label>
+		</div>
+		<div class="panel-body">
+			<a class="btn btn-default col-md-offset-1 col-md-10"
+				th:href="@{/search/user?searchWords={searchWords} (searchWords=${searchWords})}"
+				th:text="#{label.search.type.user}"></a> <a
+				class="btn btn-default col-md-offset-1 col-md-10"
+				th:href="@{/search/titleAndContent?searchWords={searchWords} (searchWords=${searchWords})}"
+				th:text="#{label.search.type.titleandcontent}"></a> <a
+				class="btn btn-default col-md-offset-1 col-md-10"
+				th:href="@{/search/hashTag?searchWords={searchWords} (searchWords=${searchWords})}"
+				th:text="#{label.search.type.hashtag}"></a>
+		</div>
+	</div>
+</section>
+</html>

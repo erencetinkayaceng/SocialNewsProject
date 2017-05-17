@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta th:include="layout/profile-layout :: site-head" th:remove="tag" />
+</head>
+
+<body>
+
+	<header th:replace="layout/main-layout :: main-header"></header>
+
+	<div class="container-fluid global_topmargin">
+		<div class="row">
+			<!-- işlem alanı  -->
+			<div class="col-md-9">
+				<div id="main-content">
+					<div class="col-md-4" th:each="follow : ${pageHolder.list}">
+						<div class="panel panel-primary">
+							<div class="panel-heading">
+								<h6 class="panel-title">
+									<a
+										th:href="@{/profile/{username}(username=${follow.followed.username})}"
+										th:text="${follow.followed.firstname+' '+follow.followed.lastname}">...</a>
+								</h6>
+							</div>
+							<div class="panel-body">
+								<div class="row">
+									<div class="col-md-offset-1 col-md-10 thumbnail">
+										<img
+											th:src="@{${follow.followed.userProfile.profileImageSrc.src}}"
+											alt="...">
+									</div>
+								</div>
+								<div class="row" th:id="${'follow-'+follow.followed.username}"
+									th:if="${#authentication.name != follow.followed.username}">
+									<div
+										th:if="${@mySecurityService.isCheckFollow(follow.followed.username) == false}"
+										th:remove="tag">
+										<a th:onclick="|newFollow('${follow.followed.username}')|"
+											th:text="#{btn.follow.create}"
+											class="btn btn-primary col-md-offset-1 col-md-10"
+											role="button">Takip Et</a>
+									</div>
+									<div
+										th:if="${@mySecurityService.isCheckFollow(follow.followed.username) == true}"
+										th:remove="tag">
+										<a th:onclick="|removeFollow('${follow.followed.username}')|"
+											th:text="#{btn.follow.remove}"
+											class="btn btn-primary col-md-offset-1 col-md-10"
+											role="button">Takibi Bırak</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- Profil alanı  -->
+			<section th:replace="layout/profile-layout :: profile-summary"
+				th:remove="tag"></section>
+		</div>
+	</div>
+
+	<footer th:replace="layout/profile-layout :: profile-footer"></footer>
+
+	<script th:inline="javascript">
+			/*<![CDATA[*/
+				
+				$(function(){
+					var pageNum = [[${pageHolder.currentPage+1}]];
+					$(window).scroll(function(){
+						var scroll=$(this).scrollTop();
+						var uzunluk=$(document).height()-$(this).height();		
+			
+						if(scroll==uzunluk){
+							var s=$(this).scrollTop();
+							if([[${pageHolder.totalCount}]]/[[${pageHolder.pageSize}]] > pageNum){
+								$.ajax({
+									type : "GET",
+									url : contextRoot + [[${pageHolder.pageUrl}]],
+									data : { pageNum: pageNum,
+									pageSize:[[${pageHolder.pageSize}]],
+									totalCount:[[${pageHolder.totalCount}]]
+									},
+									success : function(data) {						
+									var datapart=$(data).find("#main-content").html();
+									$('#main-content').append(datapart);
+									$(this).scrollTop(s);
+									pageNum+=1;
+									}
+								});
+							}
+						}		
+					});
+				});			
+			/*]]>*/
+		</script>
+
+</body>
+</html>

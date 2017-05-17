@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+
+<meta th:include="layout/admin-layout :: site-head" th:remove="tag" />
+<title th:text="#{editpost.title}">Post Düzenleme</title>
+</head>
+
+<body>
+
+	<header th:replace="layout/admin-layout :: admin-header"></header>
+
+	<div class="container-fluid global_topmargin">
+		<div class="row">
+			<!-- işlem alanı  -->
+			<div class="col-md-9">
+				<div class="panel panel-primary">
+					<div class="panel-heading">
+						<h1 class="panel-title" th:text="#{editpost.paneltitle}">Post
+							Düzenleme Formu</h1>
+					</div>
+					<form th:action="@{/admin/editPost}" th:object="${post}"
+						method="post">
+						<input type="hidden" th:field="*{postLink}" />
+						<div class="panel-body">
+							<div class="row">
+								<div class="form-group col-md-12">
+									<div class="col-md-5">
+										<label class="control-lable" for="title"
+											th:text="#{label.post.title}">Başlık</label> <input
+											id="title" class="form-control input-block" type="text"
+											th:field="*{title}" th:placeholder="#{label.post.title}" />
+										<br> <span class="alert alert-danger"
+											th:if="${#fields.hasErrors('title')}" th:errors="*{title}">Invalid
+											title</span>
+									</div>
+
+									<div class="col-md-4">
+										<label class="control-lable" for="hashTag"
+											th:text="#{label.post.hashTag}">HashTag</label> <input
+											id="hashTag" class="form-control input-block" type="text"
+											th:field="*{hashTag}" th:placeholder="#{label.post.hashTag}" />
+										<br> <span class="alert alert-danger"
+											th:if="${#fields.hasErrors('hashTag')}"
+											th:errors="*{hashTag}">Invalid hashTag</span>
+									</div>
+									<div class="col-md-3">
+										<label class="control-lable" for="type"
+											th:text="#{label.post.type}">Haber Tipi</label>
+										<div class="styled-select blue semi-square">
+											<select th:field="*{postType}">
+												<option th:each="type : ${allpostTypes}" th:value="${type}"
+													th:text="${type}">Type</option>
+											</select>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<div class="row">
+								<div class="form-group col-md-12">
+									<div class="col-md-12">
+										<label class="control-lable" for="content"
+											th:text="#{label.post.content}">İçerik</label>
+										<textarea id="content" class="form-control input-block "
+											rows="10" cols="80" th:field="*{content}"
+											th:placeholder="#{label.post.content}"></textarea>
+									</div>
+									<span class="alert alert-danger"
+										th:if="${#fields.hasErrors('content')}" th:errors="*{content}">content</span>
+								</div>
+							</div>
+						</div>
+						<div class="panel-footer">
+							<div class="row">
+								<div class="form-actions">
+									<input type="submit" th:value="#{btn.edit}"
+										class="btn btn-primary col-md-4 col-md-offset-4" />
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+			<script th:inline="javascript">
+				CKEDITOR.replace('content', {
+					toolbar : 'Basic',
+					uiColor : '#9AB8F3'
+				});
+			</script>
+			<!-- Profil alanı  -->
+			<section th:replace="layout/admin-layout :: right-sidebar"
+				th:remove="tag"></section>
+		</div>
+	</div>
+
+
+	<footer th:replace="layout/admin-layout :: admin-footer"></footer>
+</body>
+</html>

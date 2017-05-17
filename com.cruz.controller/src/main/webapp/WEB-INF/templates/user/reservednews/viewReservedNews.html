@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta th:include="layout/main-layout :: site-head" th:remove="tag" />
+</head>
+
+<body>
+
+	<header th:replace="layout/main-layout :: main-header"></header>
+
+	<div class="container-fluid global_topmargin">
+		<div class="row">
+
+			<!-- işlem alanı  -->
+			<div class="col-md-9">
+				<div id="main-reservednews">
+					<div class="panel panel-primary">
+						<div class="panel-heading">
+							<div class="row">
+								<div class="col-md-8">
+									<h6 class="panel-title" th:text="#{label.reservednews.title}">Ayrılmış
+										Haberler</h6>
+								</div>
+							</div>
+						</div>
+						<div class="panel-body">
+							<div class="row">
+								<table class="table table-striped">
+									<tr>
+										<th th:text="#{label.reservednews.post}" class="col-md-8">Haber</th>
+										<th th:text="#{label.reservednews.date}" class="col-md-3">Ekleme
+											Tarihi</th>
+										<th th:text="#{label.reservednews.remove}" class="col-md-1">Sil</th>
+									</tr>
+									<tr th:id="${'rnitem-'+rnlist.id}"
+										th:each="rnlist : ${pageHolder.list}">
+										<td><a
+											th:href="@{/post/detail/{postLink}(postLink=${rnlist.post.postLink})}"
+											th:text="${rnlist.post.title}">...</a></td>
+										<td><p th:text="${rnlist.addDate}">...</p></td>
+										<td><a th:onclick="|reservednewsRemove('${rnlist.id}')|"
+											th:text="#{label.reservednews.remove}"
+											class="btn btn-danger btn-block" role="button">...</a></td>
+									</tr>
+								</table>
+							</div>
+						</div>
+						<div class="panel-footer">
+							<div class="row">
+								<section th:replace="fragment/pagination :: pagination"
+									th:remove="tag"></section>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<script th:inline="javascript">
+				/*<![CDATA[*/
+
+				function reservednewsRemove(id) {
+					$.ajax({
+						type : "GET",
+						url : contextRoot + 'reservednews/removeReservedNews/'
+								+ id,
+						success : function(data) {
+							$('#rnitem-' + id).hide();
+							$('#snackbar').html(data);
+							toastMessage();
+						}
+					});
+				}
+				
+				function documentByPage(pageNum) {
+										
+					$.ajax({
+						type : "GET",
+						url : contextRoot + [[${pageHolder.pageUrl}]],
+						data : { pageNum:pageNum,
+							pageSize:[[${pageHolder.pageSize}]],
+							totalCount:[[${pageHolder.totalCount}]]
+							},
+						success : function(data) {						
+							var datapart=$(data).find("#main-reservednews").html();
+							$('#main-reservednews').html(datapart);
+						}
+					});
+				}		
+				/*]]>*/
+			</script>
+
+			<!-- Profil alanı  -->
+			<section th:replace="layout/main-layout :: right-sidebar"
+				th:remove="tag"></section>
+
+		</div>
+	</div>
+
+
+	<footer th:replace="layout/profile-layout :: profile-footer"></footer>
+</body>
+</html>

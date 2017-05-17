@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+
+<meta th:include="layout/main-layout :: site-head" th:remove="tag" />
+<title th:text="${post.title}"></title>
+</head>
+
+<body>
+
+	<header th:replace="layout/main-layout :: main-header"></header>
+
+	<div class="container-fluid global_topmargin">
+		<div class="row">
+			<!-- işlem alanı  -->
+			<div class="col-md-9">
+				<div class="col-md-2"></div>
+				<div class="col-md-10">
+					<div class="row">
+						<div class="panel panel-primary">
+							<div class="panel-heading">
+								<div class="row">
+									<div class="col-md-7">
+										<h6 class="panel-title" th:text="${post.title}">...</h6>
+									</div>
+									<div class="col-md-4">
+										<h6 class="panel-title">
+											<a
+												th:href="@{/profile/{username}(username=${post.user.username})}"
+												th:text="${post.user.firstname+' '+post.user.lastname}">...</a>
+										</h6>
+									</div>
+									<div class="col-md-1">
+										<section
+											th:replace="fragment/post-operation-button-group :: post-operation"
+											th:remove="tag"></section>
+									</div>
+								</div>
+							</div>
+							<div class="panel-body">
+								<div class="row">
+									<p>
+										<span th:utext="${post.content}">Content</span>
+									</p>
+								</div>
+							</div>
+							<div class="panel-footer">
+								<div class="row">
+									<div class="col-md-4">
+										<button class="btn btn-primary" type="button">
+											<span th:text="#{btn.like}"></span><span class="badge"
+												th:text="${post.likeCount}">0</span>
+										</button>
+									</div>
+									<div class="col-md-4"></div>
+									<div class="col-md-4">
+										<span th:text="${post.updateDate}"></span>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<!-- Yorum alanı  -->
+						<section th:replace="fragment/post-comment :: comment-operations"
+							th:remove="tag"></section>
+					</div>
+				</div>
+
+			</div>
+
+			<!-- Profil alanı  -->
+			<section th:replace="layout/main-layout :: right-sidebar"
+				th:remove="tag"></section>
+		</div>
+	</div>
+
+
+	<footer th:replace="layout/main-layout :: main-footer"></footer>
+</body>
+</html>

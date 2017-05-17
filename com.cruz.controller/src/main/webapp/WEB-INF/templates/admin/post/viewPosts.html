@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta th:include="layout/admin-layout :: site-head" th:remove="tag" />
+</head>
+<body>
+	<header th:replace="layout/admin-layout :: admin-header"></header>
+
+
+
+	<div class="container-fluid global_topmargin">
+		<div class="row">
+			<!-- işlem alanı  -->
+			<div class="col-md-9">
+				<div id="main-posts">
+					<div class="panel panel-primary">
+						<div class="panel-heading">
+							<div class="row">
+								<div class="col-md-8">
+									<h6 class="panel-title" th:text="#{label.admin.post.title}">Post
+										İşlemleri</h6>
+								</div>
+
+								<div class="col-md-2 styled-select blue semi-square">
+									<select th:id="postType"
+										th:onchange="|documentReloadByPostType()|">
+										<th:block th:each="type : ${allPostTypes}" th:remove="tag">
+											<option th:if="${type} == ${reqPostType}" selected="selected"
+												th:value="${type}" th:text="${type}">Type</option>
+											<option th:if="${type} != ${reqPostType}" th:value="${type}"
+												th:text="${type}">Type</option>
+										</th:block>
+									</select>
+								</div>
+								<div class="col-md-2 styled-select blue semi-square">
+									<select th:id="updateOrderBy"
+										th:onchange="|documentReloadByOrder()|">
+										<th:block th:if="${reqUpdateOrderBy} == 'DESC'">
+											<option selected="selected" th:value="DESC"
+												th:text="#{label.admin.post.order.new}">Type</option>
+											<option th:value="ASC"
+												th:text="#{label.admin.post.order.old}">Type</option>
+										</th:block>
+										<th:block th:if="${reqUpdateOrderBy} == 'ASC'">
+											<option th:value="DESC"
+												th:text="#{label.admin.post.order.new}">Type</option>
+											<option selected="selected" th:value="ASC"
+												th:text="#{label.admin.post.order.old}">Type</option>
+										</th:block>
+									</select>
+								</div>
+							</div>
+						</div>
+						<div class="panel-body">
+							<div class="row">
+								<table class="table table-striped">
+									<tr th:id="${'postitem-'+post.postLink}"
+										th:each="post : ${pageHolder.list}">
+										<td class="col-md-6"><a
+											th:href="@{/post/detail/{postLink}(postLink=${post.postLink})}"
+											th:text="${post.title}">...</a></td>
+										<td class="col-md-3"><a
+											th:href="@{/admin/editPost/{postlink}(postlink=${post.postLink})}"
+											th:text="#{label.admin.post.edit}"
+											class="btn btn-success btn-block" role="button">...</a></td>
+										<td class="col-md-3"><a
+											th:onclick="|postRemove('${post.postLink}')|"
+											th:text="#{label.admin.post.remove}"
+											class="btn btn-danger btn-block" role="button">...</a></td>
+									</tr>
+								</table>
+							</div>
+						</div>
+						<div class="panel-footer">
+							<div class="row">
+								<section th:replace="fragment/pagination :: pagination"
+									th:remove="tag"></section>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<script th:inline="javascript">
+				/*<![CDATA[*/
+
+				function postRemove(postlink) {
+					$.ajax({
+						type : "GET",
+						url : contextRoot + 'admin/removePost/' + postlink,
+						success : function(data) {
+							$('#postitem-' + postlink).hide();
+							$('#snackbar').html(data);
+							toastMessage();
+						}
+					});
+				}				
+
+				function documentByPage(pageNum) {
+					var e = document.getElementById("postType");
+					var postType = e.options[e.selectedIndex].value;
+					
+					var e2 = document.getElementById("updateOrderBy");
+					var updateOrderBy = e2.options[e2.selectedIndex].value;
+					
+					if(postType == [[#{label.post.type.option.all}]]){
+						postType = '%';
+					}
+					
+					$.ajax({
+						type : "GET",
+						url : contextRoot + [[${pageHolder.pageUrl}]],
+						data : { pageNum:pageNum,
+							pageSize:[[${pageHolder.pageSize}]],
+							totalCount:[[${pageHolder.totalCount}]],
+							postType:postType,
+							updateOrderBy:updateOrderBy
+							},
+						success : function(data) {						
+							var datapart=$(data).find("#main-posts").html();
+							$('#main-posts').html(datapart);
+						}
+					});
+				}		
+				
+				function documentReloadByPostType(){
+					var e = document.getElementById("postType");
+					var postType = e.options[e.selectedIndex].value;
+					
+					var e2 = document.getElementById("updateOrderBy");
+					var updateOrderBy = e2.options[e2.selectedIndex].value;
+					
+					if(postType == [[#{label.post.type.option.all}]]){
+						postType = '%';
+					}
+					
+					$.ajax({
+						type : "GET",
+						url : contextRoot + [[${pageHolder.pageUrl}]],
+						data : { pageNum:'0',
+							pageSize:[[${pageHolder.pageSize}]],
+							totalCount:'0',
+							postType:postType,
+							updateOrderBy:updateOrderBy
+							},
+						success : function(data) {	
+							var datapart=$(data).find("#main-posts").html();
+							$('#main-posts').html(datapart);
+						}
+					});
+				}
+				
+				function documentReloadByOrder(){
+					var e = document.getElementById("postType");
+					var postType = e.options[e.selectedIndex].value;
+					
+					var e2 = document.getElementById("updateOrderBy");
+					var updateOrderBy = e2.options[e2.selectedIndex].value;
+					
+					if(postType == [[#{label.post.type.option.all}]]){
+						postType = '%';
+					}
+					
+					$.ajax({
+						type : "GET",
+						url : contextRoot + [[${pageHolder.pageUrl}]],
+						data : { pageNum:'0',
+							pageSize:[[${pageHolder.pageSize}]],
+							totalCount:[[${pageHolder.totalCount}]],
+							postType:postType,
+							updateOrderBy:updateOrderBy
+							},
+						success : function(data) {						
+							var datapart=$(data).find("#main-posts").html();
+							$('#main-posts').html(datapart);
+						}
+					});
+				}
+				
+				/*]]>*/
+			</script>
+
+			<!-- Profil alanı  -->
+			<section th:replace="layout/admin-layout :: right-sidebar"
+				th:remove="tag"></section>
+
+		</div>
+	</div>
+
+
+	<footer th:replace="layout/admin-layout :: admin-footer"></footer>
+
+</body>
+</html>

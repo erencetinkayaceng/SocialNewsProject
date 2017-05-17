@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<section th:fragment="search-main" th:remove="tag">
+	<div th:if="${searchType  == 'titleAndContent'}" th:remove="tag">
+		<section th:replace="fragment/post-summary-list :: post-summary-list"
+			th:remove="tag"></section>
+	</div>
+</section>
+</html>

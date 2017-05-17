@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<section th:fragment="comment-operations" th:remove="tag">
+	<div class="col-md-12 comment-panel">
+		<div class="row comment-input">
+			<div class="col-md-1">
+				<a th:href="@{/profile/{username}(username=${profile.username})}">
+					<img class="img-thumbnail media-object"
+					style="width: 32px; height: 32px;"
+					th:src="@{${profile.userProfile.profileImageSrc.src}}" alt="...">
+				</a>
+			</div>
+			<div class="col-md-11">
+				<div class="input-group">
+					<input id="comment-input-content" type="text"
+						class="form-control input-block"
+						th:placeholder="#{label.comment.input}"> <span
+						class="input-group-btn">
+						<button class="btn btn-default btn-block" id="newCommentButton"
+							th:value="${pageHolder.totalCount}"
+							th:onclick="|newComment('${post.postLink}')|"
+							th:text="#{btn.save}" type="button"></button>
+					</span>
+				</div>
+			</div>
+
+		</div>
+		<div class="row">
+			<div id="comment-content">
+				<div class="comment-content" th:each="comment : ${pageHolder.list}">
+					<div class="row" th:id="${'comment-hide-'+comment.id}">
+						<div class="col-md-1">
+							<a
+								th:href="@{/profile/{username}(username=${comment.user.username})}">
+								<img class="img-thumbnail media-object"
+								style="width: 32px; height: 32px;"
+								th:src="@{${comment.user.userProfile.profileImageSrc.src}}"
+								alt="...">
+							</a>
+						</div>
+						<div class="col-md-10">
+							<p class="text" th:text="${comment.content}"></p>
+						</div>
+						<div class="col-md-1">
+							<button
+								th:if="${@mySecurityService.canAccessCommentRemove(comment.id)}"
+								class="btn btn-default btn-block"
+								th:onclick="|removeComment('${comment.id}')|" th:text="x"
+								type="button"></button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<button class="btn btn-default btn-block" id="upgradeCommentButton"
+				th:value="${pageHolder.currentPage+#lists.size(pageHolder.list)}" th:onclick="|upgradeCommentContent()|"
+				th:text="#{btn.comment.upgrade}" type="button"></button>
+		</div>
+	</div>
+	<script th:inline="javascript">
+		/*<![CDATA[*/
+		function newComment(postlink) {
+			var commentContent = document.getElementById("comment-input-content").value;
+
+			if (commentContent == null || commentContent == "") {
+				$('#snackbar').html([[#{label.comment.input.empty}]]);
+				toastMessage();
+			} else {
+				$.ajax({
+					type : "GET",
+					url : contextRoot + 'comment/newComment',
+					data : {
+						postLink : postlink,
+						commentContent : commentContent
+					},
+					success : function(data) {
+						document.getElementById("comment-input-content").value = "";
+						/*Yeni eklenen yorumun hesap edilmesi için toplam yorum sayısını arttırıyoruz
+						Sayfa yenilenene kadar yeni yorum gösterilemiyordu*/
+						var totalCount = document.getElementById("newCommentButton").value;
+						document.getElementById("newCommentButton").value = ++totalCount;
+					}
+				});
+			}
+		}
+		
+		function upgradeCommentContent() {
+			var commentNum = document.getElementById("upgradeCommentButton").value;
+			var totalCount = document.getElementById("newCommentButton").value;
+			
+			if((totalCount-commentNum) >= [[${pageHolder.pageSize}]]){
+					$.ajax({
+						type : "GET",
+						url : contextRoot + [[${pageHolder.pageUrl}]],
+						data : { 
+							postLink : [[${post.postLink}]],
+							commentNum:commentNum,
+							pageSize:[[${pageHolder.pageSize}]],
+							totalCount:totalCount
+							},
+						success : function(data) {
+							var datapart=$(data).find("#comment-content").html();
+							$('#comment-content').append(datapart);
+							document.getElementById("upgradeCommentButton").value = (1*commentNum+[[${pageHolder.pageSize}]]);
+						}
+					});
+			}else if((totalCount-commentNum) < [[${pageHolder.pageSize}]] && 0 < (totalCount-commentNum) ){
+				$.ajax({
+					type : "GET",
+					url : contextRoot + [[${pageHolder.pageUrl}]],
+					data : { 
+						postLink : [[${post.postLink}]],
+						commentNum:commentNum,
+						pageSize:(totalCount-commentNum),
+						totalCount:totalCount
+						},
+					success : function(data) {
+						var datapart=$(data).find("#comment-content").html();
+						$('#comment-content').append(datapart);
+						document.getElementById("upgradeCommentButton").value = (1*commentNum+(totalCount-commentNum));
+					}
+				});
+			}
+			else{
+				$('#snackbar').html([[#{label.comment.absent}]]);
+				toastMessage();
+			}
+		}
+		
+		function removeComment(commentID) {
+			$.ajax({
+				type : "GET",
+				url : contextRoot + 'comment/removeComment',
+				data : {
+					commentID : commentID
+				},
+				success : function(data) {
+					$('#comment-hide-'+commentID).hide();
+					/* yeni eklenen yorumları görebilemek için yorum numarasını ve toplam yorumu 1 azalttık*/
+					var commentNum = document.getElementById("upgradeCommentButton").value;
+					document.getElementById("upgradeCommentButton").value = commentNum-1;
+					var totalCount = document.getElementById("newCommentButton").value;
+					document.getElementById("newCommentButton").value = totalCount-1;
+				}
+			});
+		}
+		
+		/*]]>*/
+	</script>
+</section>
+
+</html>

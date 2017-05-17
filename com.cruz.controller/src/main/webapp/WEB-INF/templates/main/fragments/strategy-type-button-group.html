@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<section th:fragment="strategy-type-button-group" th:remove="tag">
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<label class="center" th:text="#{label.strategy.criteria}"></label>
+		</div>
+		<div class="panel-body">
+			<a class="btn btn-default btn-block"
+				th:href="@{/main/?strategyType=follow}"
+				th:text="#{label.strategy.type.follow}"></a> <a
+				class="btn btn-default btn-block"
+				th:href="@{/main/?strategyType=popularPost}"
+				th:text="#{label.strategy.type.popularPost}"></a>
+		</div>
+	</div>
+</section>
+</html>

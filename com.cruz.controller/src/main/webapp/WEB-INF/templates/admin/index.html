@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta th:include="layout/admin-layout :: site-head" th:remove="tag" />
+</head>
+<body>
+	<header th:replace="layout/admin-layout :: admin-header"></header>
+
+	<div class="container-fluid global_topmargin">
+		<div class="row">
+			<!-- işlem alanı  -->
+			<div class="col-md-9"></div>
+
+			<!-- Profil alanı  -->
+			<section th:replace="layout/admin-layout :: right-sidebar"
+				th:remove="tag"></section>
+
+		</div>
+	</div>
+
+	<footer th:replace="layout/admin-layout :: admin-footer"></footer>
+
+</body>
+</html>

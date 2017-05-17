@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta th:include="layout/basic-layout :: site-head" th:remove="tag" />
+<title th:text="#{login.title}">Sisteme Giriş Yap</title>
+</head>
+
+<body class="background">
+
+	<header th:replace="layout/basic-layout :: normal-header"></header>
+
+	<!--  Giriş alanı -->
+	<div class="container">
+		<div class="row ">
+			<div class="col-sm-4 col-md-4 authcontentmargin"></div>
+			<div class="col-sm-4 col-md-4 authcontentmargin">
+				<div class="panel panel-success">
+					<div class="panel-heading">
+						<h3 class="panel-title" th:if="not ${error} and not ${logout}"
+							th:text="${operationmessage}? ${operationmessage} : #{login.paneltitle}">Giriş Yap</h3>
+						<h5 th:if="${error}" class="alert alert-danger" role="alert"
+							th:text="#{login.error}">Kullanıcı adı veya parola yanlış!</h5>
+						<h5 th:if="${logout}" th:text="#{login.logout}">Başarıyla çıkıldı.</h5>
+					</div>
+					<form th:action="@{/login}" method="post">
+						<div class="panel-body">
+							<input id="username" class="form-control input-block" type="text"
+								name="username" th:placeholder="#{label.user.username}" /> <br>
+
+							<input id="password" class="form-control input-block"
+								type="password" name="password"
+								th:placeholder="#{label.user.password}" />
+
+						</div>
+						<div class="panel-footer">
+							<input type="submit" th:value="#{btn.login}" role="Button"
+								class="btn btn-success btn-block" />
+						</div>
+					</form>
+				</div>
+			</div>
+			<div class="col-sm-4 col-md-4 authcontentmargin"></div>
+		</div>
+	</div>
+
+</body>
+</html>
