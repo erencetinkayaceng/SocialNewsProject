@@ -21,7 +21,7 @@
 			password-parameter="password" default-target-url="/main/"
 			authentication-failure-url="/loginerror?error=true" />
 		<access-denied-handler error-page="/accessDenied" />
-		<logout logout-success-url="/logout" delete-cookies="JSESSIONID" />
+		<logout logout-success-url="/logouttologin?logout=true" delete-cookies="JSESSIONID" />
 		<csrf disabled="true" />
 	</http>
 

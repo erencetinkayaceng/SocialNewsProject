@@ -53,18 +53,14 @@ public class LoginController {
 		return new ModelAndView("/login/login", "error", error = "true");
 	}
 
-	@RequestMapping(value = "/loginlogout", method = RequestMethod.GET)
-	public ModelAndView loginPageLogout(@RequestParam(value = "logout") String logout) {
-		return new ModelAndView("/login/login", "logout", logout = "true");
-	}
-
-	@RequestMapping(value = "/logout", method = RequestMethod.GET)
-	public String logoutPage(HttpServletRequest request, HttpServletResponse response) {
+	@RequestMapping(value = "/logouttologin", method = RequestMethod.GET)
+	public ModelAndView logoutPage(HttpServletRequest request, HttpServletResponse response,
+			@RequestParam(value = "logout") String logout) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		if (auth != null) {
 			new SecurityContextLogoutHandler().logout(request, response, auth);
 		}
-		return "redirect:/loginlogout?logout=true";
+		return new ModelAndView("/login/login", "logout", logout = "true");
 	}
 
 	private String getPrincipal() {
